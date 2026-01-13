@@ -3,54 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sillage - Catálogo Interactivo</title>
+    <title>Sillage - Exclusive Collection</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background-color: #0a0a0a; color: #e5e5e5; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .glass-header { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); }
-        .card-shadow { box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08); }
-        .selected-card { border-color: #78350f !important; background-color: #fffaf0; }
+        
+        /* Paleta Dorado y Negro */
+        .gold-text { color: #d4af37; }
+        .gold-border { border-color: #d4af37; }
+        .gold-bg { background-color: #d4af37; }
+        .glass-header { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid #262626; }
+        
+        /* Estilos de Tarjetas */
+        .card-premium { 
+            background: #171717; 
+            border: 1px solid #262626;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .selected-card { 
+            border-color: #d4af37 !important; 
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+        
+        /* Desplegable */
         .details-content { max-height: 0; overflow: hidden; transition: all 0.4s ease; opacity: 0; }
-        .details-active { max-height: 500px; opacity: 1; padding-top: 1rem; padding-bottom: 1rem; }
-        .size-btn { transition: all 0.2s ease; }
-        .size-btn.active { background-color: #78350f; color: white; border-color: #78350f; }
+        .details-active { max-height: 500px; opacity: 1; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        
+        .size-btn { transition: all 0.2s ease; border: 1px solid #404040; background: transparent; color: #a3a3a3; }
+        .size-btn.active { background-color: #d4af37; color: #0a0a0a; border-color: #d4af37; font-weight: 700; }
+        
         .btn-wa { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
     </style>
 </head>
-<body class="bg-[#FBFBFA] text-stone-900 pb-40">
+<body class="pb-40">
 
-    <header class="glass-header border-b border-stone-100 sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-6 py-6 text-center">
-            <div class="flex justify-center items-center gap-2 mb-1">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#78350f" stroke-width="2"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg>
-                <h1 class="text-3xl font-serif font-bold tracking-tighter uppercase text-stone-800">SILLAGE</h1>
+    <!-- HEADER CON LOGO -->
+    <header class="glass-header sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 py-6 flex flex-col items-center">
+            <!-- Espacio para tu Logo -->
+            <div class="mb-4">
+                <img src="URL_DE_TU_LOGO" alt="Sillage Logo" class="h-16 w-auto object-contain fallback-logo" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block'">
+                <div id="text-logo" style="display:none;" class="text-center">
+                    <h1 class="text-4xl font-serif font-bold tracking-tighter uppercase gold-text">SILLAGE</h1>
+                </div>
             </div>
-            <p class="text-[9px] uppercase tracking-[0.3em] text-amber-800 font-bold mb-5 italic">Paraguay · Inspiración Premium</p>
             
-            <div class="flex gap-2 overflow-x-auto no-scrollbar justify-center">
-                <button onclick="filter('Todos')" id="filter-Todos" class="cat-btn px-6 py-2 rounded-full text-[10px] font-bold bg-stone-900 text-white shadow-md transition-all">TODOS</button>
-                <button onclick="filter('Damas')" id="filter-Damas" class="cat-btn px-6 py-2 rounded-full text-[10px] font-bold bg-white text-stone-400 border border-stone-200 transition-all">DAMAS</button>
-                <button onclick="filter('Caballeros')" id="filter-Caballeros" class="cat-btn px-6 py-2 rounded-full text-[10px] font-bold bg-white text-stone-400 border border-stone-200 transition-all">CABALLEROS</button>
+            <p class="text-[8px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-6 italic">Paraguay · Luxury Inspiration</p>
+            
+            <div class="flex gap-3 overflow-x-auto no-scrollbar w-full justify-center">
+                <button onclick="filter('Todos')" id="filter-Todos" class="cat-btn px-6 py-2 rounded-full text-[9px] font-black tracking-widest bg-white text-black transition-all">TODOS</button>
+                <button onclick="filter('Damas')" id="filter-Damas" class="cat-btn px-6 py-2 rounded-full text-[9px] font-black tracking-widest border border-stone-800 text-stone-500 transition-all">DAMAS</button>
+                <button onclick="filter('Caballeros')" id="filter-Caballeros" class="cat-btn px-6 py-2 rounded-full text-[9px] font-black tracking-widest border border-stone-800 text-stone-500 transition-all">CABALLEROS</button>
             </div>
         </div>
     </header>
 
-    <main id="catalog" class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 gap-8">
-        <!-- Renderizado automático -->
+    <main id="catalog" class="max-w-4xl mx-auto px-4 py-10 grid grid-cols-1 gap-10">
+        <!-- Renderizado dinámico -->
     </main>
 
-    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-100 p-6 shadow-[0_-15px_40px_rgba(0,0,0,0.15)] transform translate-y-full transition-all duration-500 z-[100] rounded-t-[2.5rem]">
+    <!-- BARRA DE PEDIDO -->
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-[#111] border-t border-stone-800 p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] transform translate-y-full transition-all duration-500 z-[100] rounded-t-[2.5rem]">
         <div class="max-w-4xl mx-auto flex items-center justify-between">
             <div class="flex flex-col">
-                <span id="cart-count" class="text-[10px] font-black text-amber-800 uppercase tracking-[0.2em] mb-1">0 Seleccionados</span>
-                <span id="cart-total" class="text-2xl font-serif font-bold text-stone-900 tracking-tighter">Gs. 0</span>
+                <span id="cart-count" class="text-[9px] font-black gold-text uppercase tracking-[0.2em] mb-1">0 Seleccionados</span>
+                <span id="cart-total" class="text-2xl font-serif font-bold text-white tracking-tighter font-serif">Gs. 0</span>
             </div>
-            <button onclick="sendBulkWa()" class="btn-wa text-white px-8 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg active:scale-95">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-14 8.38 8.38 0 0 1 3.8.9L21 3z"></path></svg>
-                Pedir Lista
+            <button onclick="sendBulkWa()" class="btn-wa text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg hover:brightness-110 active:scale-95">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-14 8.38 8.38 0 0 1 3.8.9L21 3z"></path></svg>
+                Confirmar Pedido
             </button>
         </div>
     </div>
@@ -89,26 +113,20 @@
             }
         ];
 
-        let selected = {}; // { id_size: { id, size, qty } }
+        let selected = {}; 
         let currentFilter = 'Todos';
 
-        function formatGs(n) {
-            return "Gs. " + n.toLocaleString('es-PY');
-        }
+        function formatGs(n) { return "Gs. " + n.toLocaleString('es-PY'); }
 
         function toggleDetails(id, event) {
             event.stopPropagation();
-            const content = document.getElementById(`desc-${id}`);
-            content.classList.toggle('details-active');
+            document.getElementById(`desc-${id}`).classList.toggle('details-active');
         }
 
         function selectProduct(id, size) {
             const key = `${id}_${size}`;
-            if (selected[key]) {
-                delete selected[key];
-            } else {
-                selected[key] = { id, size, qty: 1 };
-            }
+            if (selected[key]) delete selected[key];
+            else selected[key] = { id, size, qty: 1 };
             updateUI();
         }
 
@@ -123,83 +141,83 @@
             render();
             const bar = document.getElementById('cart-bar');
             const keys = Object.keys(selected);
-            
             if (keys.length > 0) {
                 bar.classList.remove('translate-y-full');
-                let total = 0;
-                let count = 0;
+                let total = 0; let count = 0;
                 keys.forEach(key => {
                     const item = selected[key];
                     const p = perfumes.find(p => p.id === item.id);
                     total += p.precios[item.size] * item.qty;
                     count += item.qty;
                 });
-                document.getElementById('cart-count').innerText = `${count} ÍTEMS SELECCIONADOS`;
+                document.getElementById('cart-count').innerText = `${count} FRASCOS SELECCIONADOS`;
                 document.getElementById('cart-total').innerText = formatGs(total);
-            } else {
-                bar.classList.add('translate-y-full');
-            }
+            } else { bar.classList.add('translate-y-full'); }
         }
 
         function render() {
             const container = document.getElementById('catalog');
             container.innerHTML = '';
-            
             const filtered = perfumes.filter(p => currentFilter === 'Todos' || p.cat === currentFilter);
             
             filtered.forEach(p => {
                 const isSelected50 = !!selected[`${p.id}_50ml`];
                 const isSelected100 = !!selected[`${p.id}_100ml`];
-                const hasAnySelection = isSelected50 || isSelected100;
+                const hasAny = isSelected50 || isSelected100;
 
                 container.innerHTML += `
-                    <div class="bg-white rounded-[2.5rem] border-2 transition-all card-shadow overflow-hidden group ${hasAnySelection ? 'selected-card scale-[1.01]' : 'border-transparent'}">
+                    <div class="card-premium rounded-[2.5rem] overflow-hidden group ${hasAny ? 'selected-card scale-[1.01]' : ''}">
                         <div class="flex flex-col sm:flex-row">
                             <!-- IMAGEN -->
-                            <div class="w-full sm:w-56 h-64 sm:h-auto bg-stone-100 relative overflow-hidden flex-shrink-0">
-                                <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="w-full sm:w-64 h-72 sm:h-auto bg-[#111] relative overflow-hidden flex-shrink-0">
+                                <img src="${p.img}" class="w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
                             </div>
                             
                             <!-- CONTENIDO -->
                             <div class="p-8 flex-grow flex flex-col justify-between">
                                 <div>
-                                    <span class="text-[10px] font-black text-amber-800 uppercase tracking-[0.2em]">${p.familia}</span>
-                                    <h3 class="text-3xl font-serif font-bold text-stone-800 leading-none mb-3">${p.nombre}</h3>
-                                    <p class="text-[11px] text-stone-400 font-bold italic mb-6">Inspirado en: ${p.inspiracion}</p>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-[9px] font-black gold-text uppercase tracking-[0.3em]">${p.familia}</span>
+                                    </div>
+                                    <h3 class="text-3xl font-serif font-bold text-white leading-tight mb-2">${p.nombre}</h3>
+                                    <p class="text-[11px] text-stone-500 font-medium italic mb-8">Inspirado en: <span class="text-stone-300">${p.inspiracion}</span></p>
                                     
-                                    <!-- SELECTORES DE TAMAÑO -->
-                                    <div class="flex flex-wrap gap-4 mb-6">
+                                    <!-- SELECTORES -->
+                                    <div class="flex flex-wrap gap-4 mb-8">
                                         <div class="flex flex-col gap-2">
-                                            <button onclick="selectProduct(${p.id}, '50ml')" class="size-btn px-4 py-2 rounded-xl border text-[11px] font-bold ${isSelected50 ? 'active' : 'border-stone-200 text-stone-500 bg-white'}">50ml - ${formatGs(p.precios['50ml'])}</button>
+                                            <button onclick="selectProduct(${p.id}, '50ml')" class="size-btn px-5 py-2.5 rounded-xl text-[10px] font-black tracking-widest ${isSelected50 ? 'active shadow-[0_0_15px_rgba(212,175,55,0.3)]' : ''}">50ML - ${formatGs(p.precios['50ml'])}</button>
                                             ${isSelected50 ? `
-                                                <div class="flex items-center justify-center gap-3 bg-stone-50 rounded-lg p-1 border">
-                                                    <button onclick="adjustQty('${p.id}_50ml', -1, event)" class="w-6 h-6 text-stone-400 font-bold">-</button>
-                                                    <span class="text-xs font-black">${selected[`${p.id}_50ml`].qty}</span>
-                                                    <button onclick="adjustQty('${p.id}_50ml', 1, event)" class="w-6 h-6 text-stone-400 font-bold">+</button>
+                                                <div class="flex items-center justify-between px-3 py-1 bg-[#222] rounded-lg border border-stone-800">
+                                                    <button onclick="adjustQty('${p.id}_50ml', -1, event)" class="text-stone-500 hover:text-white">-</button>
+                                                    <span class="text-[10px] font-bold text-white">${selected[`${p.id}_50ml`].qty}</span>
+                                                    <button onclick="adjustQty('${p.id}_50ml', 1, event)" class="text-stone-500 hover:text-white">+</button>
                                                 </div>
                                             ` : ''}
                                         </div>
                                         <div class="flex flex-col gap-2">
-                                            <button onclick="selectProduct(${p.id}, '100ml')" class="size-btn px-4 py-2 rounded-xl border text-[11px] font-bold ${isSelected100 ? 'active' : 'border-stone-200 text-stone-500 bg-white'}">100ml - ${formatGs(p.precios['100ml'])}</button>
+                                            <button onclick="selectProduct(${p.id}, '100ml')" class="size-btn px-5 py-2.5 rounded-xl text-[10px] font-black tracking-widest ${isSelected100 ? 'active shadow-[0_0_15px_rgba(212,175,55,0.3)]' : ''}">100ML - ${formatGs(p.precios['100ml'])}</button>
                                             ${isSelected100 ? `
-                                                <div class="flex items-center justify-center gap-3 bg-stone-50 rounded-lg p-1 border">
-                                                    <button onclick="adjustQty('${p.id}_100ml', -1, event)" class="w-6 h-6 text-stone-400 font-bold">-</button>
-                                                    <span class="text-xs font-black">${selected[`${p.id}_100ml`].qty}</span>
-                                                    <button onclick="adjustQty('${p.id}_100ml', 1, event)" class="w-6 h-6 text-stone-400 font-bold">+</button>
+                                                <div class="flex items-center justify-between px-3 py-1 bg-[#222] rounded-lg border border-stone-800">
+                                                    <button onclick="adjustQty('${p.id}_100ml', -1, event)" class="text-stone-500 hover:text-white">-</button>
+                                                    <span class="text-[10px] font-bold text-white">${selected[`${p.id}_100ml`].qty}</span>
+                                                    <button onclick="adjustQty('${p.id}_100ml', 1, event)" class="text-stone-500 hover:text-white">+</button>
                                                 </div>
                                             ` : ''}
                                         </div>
                                     </div>
                                 </div>
 
-                                <button onclick="toggleDetails(${p.id}, event)" class="text-[10px] font-bold text-stone-400 uppercase flex items-center gap-2 hover:text-amber-900 transition-colors">
-                                    Notas olfativas ↓
+                                <button onclick="toggleDetails(${p.id}, event)" class="text-[9px] font-black text-stone-600 uppercase tracking-widest flex items-center gap-2 hover:text-white transition-all">
+                                    Explorar esencia ↓
                                 </button>
                             </div>
                         </div>
 
-                        <div id="desc-${p.id}" class="details-content bg-[#FAF9F6] px-8 border-t border-stone-100">
-                            <p class="text-[13px] text-stone-600 leading-relaxed italic font-medium">"${p.descripcion}"</p>
+                        <div id="desc-${p.id}" class="details-content bg-[#0d0d0d] px-8 border-t border-stone-900">
+                            <div class="py-4">
+                                <p class="text-[13px] text-stone-500 leading-relaxed italic border-l border-stone-800 pl-4">"${p.descripcion}"</p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -209,29 +227,24 @@
         function filter(cat) {
             currentFilter = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('bg-stone-900', 'text-white', 'shadow-md');
-                btn.classList.add('bg-white', 'text-stone-400', 'border-stone-200');
+                btn.className = "cat-btn px-6 py-2 rounded-full text-[9px] font-black tracking-widest border border-stone-800 text-stone-500 transition-all";
+                if(btn.id === `filter-${cat}`) btn.className = "cat-btn px-6 py-2 rounded-full text-[9px] font-black tracking-widest bg-white text-black transition-all";
             });
-            const activeBtn = document.getElementById(`filter-${cat}`);
-            activeBtn.classList.add('bg-stone-900', 'text-white', 'shadow-md');
-            activeBtn.classList.remove('bg-white', 'text-stone-400', 'border-stone-200');
             render();
         }
 
         function sendBulkWa() {
-            let message = "¡Hola Sillage! 🇵🇾 Me interesa este pedido:\n\n";
+            let message = "¡Hola Sillage! 🇵🇾 Me gustaría consultar disponibilidad de:\n\n";
             let total = 0;
             Object.keys(selected).forEach(key => {
                 const item = selected[key];
                 const p = perfumes.find(p => p.id === item.id);
-                const subtotal = p.precios[item.size] * item.qty;
-                message += `• ${item.qty}x ${p.nombre} [${item.size}] (Insp. ${p.inspiracion}) - ${formatGs(subtotal)}\n`;
-                total += subtotal;
+                const sub = p.precios[item.size] * item.qty;
+                message += `✨ ${item.qty}x ${p.nombre} [${item.size}] - ${formatGs(sub)}\n`;
+                total += sub;
             });
-            message += `\nTotal Estimado: ${formatGs(total)}\n\n¿Tienen disponibilidad? ¡Gracias!`;
-            
-            const tel = "595981000000"; // Cambiar por tu número
-            window.open(`https://wa.me/${tel}?text=${encodeURIComponent(message)}`, '_blank');
+            message += `\nTotal: ${formatGs(total)}\n\n¿Tienen stock? ¡Muchas gracias!`;
+            window.open(`https://wa.me/595981000000?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         render();
