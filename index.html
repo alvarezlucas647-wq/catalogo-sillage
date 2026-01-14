@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sillage | Ofertas Exclusivas Paraguay</title>
+    
+    <!-- ESTO ES LO QUE CAMBIA EL TEXTO DE LA PESTAÑA -->
+    <title>Catálogo Sillage | Luxury Inspiration</title>
+    
+    <!-- ESTO ES LO QUE APARECE CUANDO COMPARTES EL LINK POR WHATSAPP O INSTAGRAM -->
+    <meta name="description" content="Descubrí nuestra colección exclusiva de fragancias de alta gama inspiradas en el lujo. Envíos a todo Paraguay.">
+    <meta property="og:title" content="Catálogo Oficial Sillage 🇵🇾">
+    <meta property="og:description" content="Perfumería de lujo e inspiraciones premium. Buscá tu aroma ideal aquí.">
+    <meta property="og:type" content="website">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -50,7 +58,6 @@
         
         .card-active { border-color: var(--gold); }
         
-        /* Badge de Oferta */
         .sale-badge {
             background: var(--sale-red);
             color: white;
@@ -61,10 +68,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 10;
-            box-shadow: 0 4px 10px rgba(185, 28, 28, 0.3);
+            top: 0; right: 0; z-index: 10;
         }
 
         .search-input {
@@ -119,6 +123,7 @@
 </head>
 <body class="pb-32">
 
+    <!-- CABECERA INTELIGENTE -->
     <header id="mainHeader" class="smart-header">
         <div class="max-w-xl mx-auto px-6 py-4">
             <div class="flex flex-col items-center mb-4">
@@ -127,7 +132,7 @@
             </div>
 
             <div class="relative mb-4">
-                <input type="text" id="searchBar" oninput="handleSearch()" placeholder="Buscar fragancia..." class="search-input w-full py-2.5 px-10 rounded-xl text-xs placeholder-stone-700">
+                <input type="text" id="searchBar" oninput="handleSearch()" placeholder="Buscar fragancia o inspiración..." class="search-input w-full py-2.5 px-10 rounded-xl text-xs placeholder-stone-700">
                 <svg class="absolute left-3 top-3 w-4 h-4 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
             
@@ -142,16 +147,21 @@
 
     <div class="content-wrapper">
         <main id="catalog" class="max-w-xl mx-auto px-4 py-4 space-y-10"></main>
+        
+        <div id="no-results" class="hidden text-center py-20">
+            <p class="text-stone-600 text-sm italic font-serif">No encontramos fragancias que coincidan.</p>
+        </div>
     </div>
 
+    <!-- CARRITO DE COMPRAS -->
     <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-[#111] border-t border-stone-800 p-6 translate-y-full z-[100] rounded-t-[2rem] transition-transform duration-500 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
         <div class="max-w-xl mx-auto flex items-center justify-between">
             <div>
-                <span id="cart-count" class="text-[9px] font-black gold-text uppercase block mb-1">Tu Selección</span>
+                <span id="cart-count" class="text-[9px] font-black gold-text uppercase block mb-1">Tu Pedido</span>
                 <span id="cart-total" class="text-2xl font-serif font-bold text-white">Gs. 0</span>
             </div>
             <button onclick="sendBulkWa()" class="btn-wa text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest active:scale-95 transition-transform">
-                Confirmar Pedido
+                Pedir por WhatsApp
             </button>
         </div>
     </div>
@@ -159,9 +169,7 @@
     <script>
         const PRECIO_FEROMONAS = 20000;
 
-        // BASE DE DATOS ACTUALIZADA CON OFERTAS
-        // enOferta: true activa el badge y el precio tachado
-        // descuento: porcentaje decimal (0.20 = 20%)
+        // AQUÍ ES DONDE AGREGAS O MODIFICAS TUS PRODUCTOS
         const perfumes = [
             {
                 id: 1,
@@ -171,7 +179,7 @@
                 precios: { "50ml": 85000, "100ml": 155000 },
                 cat: "Damas",
                 enOferta: true,
-                descuento: 0.15, // 15% OFF
+                descuento: 0.15,
                 img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800"
             },
             {
@@ -193,7 +201,7 @@
                 precios: { "50ml": 110000, "100ml": 195000 },
                 cat: "Unisex",
                 enOferta: true,
-                descuento: 0.20, // 20% OFF
+                descuento: 0.20,
                 img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800"
             }
         ];
@@ -213,16 +221,13 @@
         perfumes.forEach(p => state[p.id] = { size: '50ml', fero: false, qty: 0 });
 
         function formatGs(n) { return "Gs. " + Math.round(n).toLocaleString('es-PY'); }
-        
-        function getPrecioFinal(base, enOferta, descuento) {
-            return enOferta ? base * (1 - descuento) : base;
-        }
-
+        function getPrecioFinal(base, enOferta, descuento) { return enOferta ? base * (1 - descuento) : base; }
         function setSize(id, size) { state[id].size = size; render(); updateCart(); }
         function toggleFero(id) { state[id].fero = !state[id].fero; render(); updateCart(); }
         function add(id) { state[id].qty++; render(); updateCart(); }
         function remove(id) { if (state[id].qty > 0) state[id].qty--; render(); updateCart(); }
         function handleSearch() { searchQuery = document.getElementById('searchBar').value.toLowerCase(); render(); }
+        
         function filter(c) {
             currentFilter = c; render();
             document.querySelectorAll('nav button').forEach(b => b.className = "flex-shrink-0 px-4 py-1.5 rounded-full text-[9px] font-black border border-stone-800 text-stone-500 transition-all uppercase");
@@ -251,6 +256,7 @@
 
         function render() {
             const container = document.getElementById('catalog');
+            const noRes = document.getElementById('no-results');
             container.innerHTML = '';
             
             const list = perfumes.filter(p => {
@@ -258,6 +264,9 @@
                 const matchSearch = p.nombre.toLowerCase().includes(searchQuery) || p.inspiracion.toLowerCase().includes(searchQuery);
                 return matchCat && matchSearch;
             });
+
+            if (list.length === 0) noRes.classList.remove('hidden');
+            else noRes.classList.add('hidden');
 
             list.forEach(p => {
                 const s = state[p.id];
@@ -347,6 +356,7 @@
                 }
             });
             msg += `*Total Final: ${formatGs(total)}*`;
+            // RECUERDA CAMBIAR EL NÚMERO AQUÍ ABAJO
             window.open(`https://wa.me/595981000000?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
